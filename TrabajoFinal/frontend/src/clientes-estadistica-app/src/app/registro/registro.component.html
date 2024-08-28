@@ -1,0 +1,131 @@
+<div class="max-w-4xl mx-auto font-[sans-serif] p-6">
+  <div class="text-center mb-16">
+    <a href="javascript:void(0)">
+      <img src="../../assets/summer-removebg-preview.png" alt="logo" class='w-52 inline-block' />
+    </a>
+    <h4 class="text-gray-800 text-base font-semibold mt-6">¡Regístrate ya!</h4>
+  </div>
+
+  <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+    <!-- Mostrar alerta de error general si existe -->
+    <div *ngIf="errorMessage" class="alert alert-error">
+      {{ errorMessage }}
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-8">
+      <div>
+        <label for="nombre" class="text-gray-800 text-sm mb-2 block">Nombre</label>
+        <input id="nombre" name="name" type="text" formControlName="Nombre" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter name" />
+        <div *ngIf="registroForm.get('Nombre')?.invalid && (registroForm.get('Nombre')?.touched || registroForm.get('Nombre')?.dirty)" class="text-red-500 text-sm">
+          <div *ngIf="registroForm.get('Nombre')?.errors?.['required']">First Name is required.</div>
+          <div *ngIf="registroForm.get('Nombre')?.errors?.['minlength']">First Name must be at least 2 characters long.</div>
+        </div>
+      </div>
+      <div>
+        <label for="apellido" class="text-gray-800 text-sm mb-2 block">Apellido</label>
+        <input id="apellido" name="lname" type="text" formControlName="Apellido" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter last name" />
+        <div *ngIf="registroForm.get('Apellido')?.invalid && (registroForm.get('Apellido')?.touched || registroForm.get('Apellido')?.dirty)" class="text-red-500 text-sm">
+          <div *ngIf="registroForm.get('Apellido')?.errors?.['required']">Last Name is required.</div>
+          <div *ngIf="registroForm.get('Apellido')?.errors?.['minlength']">Last Name must be at least 2 characters long.</div>
+        </div>
+      </div>
+      <div>
+        <label for="email" class="text-gray-800 text-sm mb-2 block">Correo</label>
+        <input id="email" name="email" type="email" formControlName="Correo" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter email" />
+        <div *ngIf="registroForm.get('Correo')?.invalid && (registroForm.get('Correo')?.touched || registroForm.get('Correo')?.dirty)" class="text-red-500 text-sm">
+          <div *ngIf="registroForm.get('Correo')?.errors?.['required']">Email is required.</div>
+          <div *ngIf="registroForm.get('Correo')?.errors?.['email']">Invalid email format.</div>
+        </div>
+      </div>
+
+      <div>
+        <label for="password" class="text-gray-800 text-sm mb-2 block">Contraseña</label>
+        <input id="password" name="password" type="password" formControlName="Contraseña" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter password" />
+        <div *ngIf="registroForm.get('Contraseña')?.invalid && (registroForm.get('Contraseña')?.touched || registroForm.get('Contraseña')?.dirty)" class="text-red-500 text-sm">
+          <div *ngIf="registroForm.get('Contraseña')?.errors?.['required']">Password is required.</div>
+          <div *ngIf="registroForm.get('Contraseña')?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+          <div *ngIf="registroForm.get('Contraseña')?.errors?.['passwordRequiresNonAlphanumeric']">Password must contain at least one non-alphanumeric character.</div>
+          <div *ngIf="registroForm.get('Contraseña')?.errors?.['passwordRequiresLower']">Password must contain at least one lowercase letter.</div>
+          <div *ngIf="registroForm.get('Contraseña')?.errors?.['passwordRequiresUpper']">Password must contain at least one uppercase letter.</div>
+        </div>
+
+        <!-- Panel de requisitos de la contraseña -->
+        
+      </div>
+
+      <div>
+        <label for="cpassword" class="text-gray-800 text-sm mb-2 block">Confirmar Contraseña</label>
+        <input id="cpassword" name="cpassword" type="password" formControlName="Contraseña2" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Confirm password" />
+        <div *ngIf="registroForm.errors?.['mismatch'] && (registroForm.get('Contraseña')?.touched || registroForm.get('Contraseña2')?.touched)" class="text-red-500 text-sm">
+          Passwords do not match.
+        </div>
+      </div>
+
+      <!-- Campos adicionales -->
+
+      <div>
+        <label for="pais" class="text-gray-800 text-sm mb-2 block">País</label>
+        <div class="relative">
+          <!-- Componente personalizado de selección -->
+          <div class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md border border-gray-300 cursor-pointer"
+               (click)="toggleDropdown()">
+            <div class="flex items-center">
+              <span *ngIf="selectedCountry" 
+                    class="w-6 h-4 inline-block bg-cover mr-2" 
+                    [ngStyle]="{'background-image': 'url(' + selectedCountry.flag + ')'}"></span>
+              <span *ngIf="selectedCountry">{{ selectedCountry.country }}</span>
+              <span *ngIf="!selectedCountry" class="text-gray-500">Selecciona un país</span>
+              <svg class="w-4 h-4 ml-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" 
+                   xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+          </div>
+      
+          <!-- Opciones desplegables -->
+          <div class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto" 
+               *ngIf="showDropdown">
+            <div *ngFor="let country of countries" 
+                 (click)="selectCountry(country)" 
+                 class="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer">
+              <span class="w-6 h-4 inline-block bg-cover mr-2" 
+                    [ngStyle]="{'background-image': 'url(' + country.flag + ')'}"></span>
+              <span>{{ country.country }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div>
+        <label for="empleo" class="text-gray-800 text-sm mb-2 block">Ocupación</label>
+        <input id="empleo" name="empleo" type="text" formControlName="Empleo" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter occupation" />
+      </div>
+      <div>
+        <label for="fecha" class="text-gray-800 text-sm mb-2 block">Fecha de nacimiento</label>
+        <input id="fecha" name="fecha" type="date" formControlName="FechaNac" class="bg-gray-100 w-full text-gray-800 text-sm px-4 py-3.5 rounded-md focus:bg-transparent outline-blue-500 transition-all" placeholder="Enter date of birth" />
+        <div *ngIf="registroForm.get('FechaNac')?.invalid && (registroForm.get('FechaNac')?.touched || registroForm.get('FechaNac')?.dirty)" class="text-red-500 text-sm">
+          <div *ngIf="registroForm.get('FechaNac')?.errors?.['required']">El campo de fecha es obligatoria</div>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="mt-2 p-4 bg-gray-100 rounded-md text-sm text-gray-600">
+      <p class="font-semibold">La contraseña debe cumplir con los siguientes requisitos:</p>
+      <ul class="list-disc ml-5">
+        <li>Al menos 6 caracteres de longitud.</li>
+        <li>Al menos una letra mayúscula.</li>
+        <li>Al menos una letra minúscula.</li>
+        <li>Al menos un número.</li>
+        <li>Al menos un carácter no alfanumérico (ejemplo: #, $, etc.).</li>
+      </ul>
+    </div>
+    <input type="hidden" formControlName="Rol" value="Client">
+
+    <div class="!mt-12">
+      <button type="submit" class="py-3.5 px-7 text-sm font-semibold tracking-wider rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+        Registrar
+      </button>
+    </div>
+  </form>
+</div>

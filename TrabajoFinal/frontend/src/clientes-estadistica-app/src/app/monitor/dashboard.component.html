@@ -1,13 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
     <div class="flex flex-col md:flex-row">
+
+        <!-- Sidebar -->
+        <div class="bg-gray-800 text-gray-100 w-full md:w-64 min-h-screen p-4">
+            <h3 class="text-2xl font-semibold mb-6">Dashboard</h3>
+            <nav class="flex flex-col space-y-4">
+                <a href="#" class="hover:text-gray-400">Transferencias</a>
+                <a href="#" class="hover:text-gray-400">Logins</a>
+                <a href="#" class="hover:text-gray-400">Forms</a>
+            </nav>
+        </div>
+
         <!-- Main Content -->
         <div class="flex-1 p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
@@ -17,28 +30,32 @@
                     <p id="UsuariosLogueados" class="text-2xl font-bold">150GB</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-lg">
-                    <h5 class="text-gray-600 text-lg font-semibold">Dinero transferido</h5>
+                    <h5 class="text-gray-600 text-lg font-semibold">Volumen Total de Transferencias</h5>
                     <p class="text-2xl font-bold">${{ totalMoneyTransferred.toFixed(2) }}</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-lg">
-                    <h5 class="text-gray-600 text-lg font-semibold">Errores encontrados</h5>
-                    <p class="text-2xl font-bold">23</p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-lg">
                     <h5 class="text-gray-600 text-lg font-semibold">Transacciones completadas</h5>
                     <p class="text-2xl font-bold">{{ totalTransfersCompleted }}</p>
                 </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <h5 class="text-gray-600 text-lg font-semibold">Valor Promedio de Transferencia</h5>
+                    <p class="text-2xl font-bold">{{ averageMoneyTransferred.toString().slice(0,-10) }}</p>
+                </div>
             </div>
 
             <!-- Botones de control -->
             <div class="flex mt-4 space-x-4 mb-4">
-                <button (click)="pauseReceiving()" class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Interrumpir Recepción</button>
-                <button (click)="resumeReceiving()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Reanudar Recepción</button>
-                <button (click)="clearTransfers()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Reiniciar Lista</button>
+                <button (click)="pauseReceiving()"
+                    class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">Interrumpir
+                    Recepción</button>
+                <button (click)="resumeReceiving()"
+                    class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Reanudar Recepción</button>
+                <button (click)="clearTransfers()"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Reiniciar Lista</button>
             </div>
-            
-            
-            
+
+
+
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Charts -->
@@ -74,16 +91,19 @@
                     </table>
                 </div>
 
-                
+
 
                 <!-- Botones de paginación -->
                 <div class="flex justify-between mt-4">
-                    <button (click)="onPrevPage()" [disabled]="currentPage === 1" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Anterior</button>
+                    <button (click)="onPrevPage()" [disabled]="currentPage === 1"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Anterior</button>
                     <span class="text-lg font-semibold">Página {{currentPage}} de {{totalPages}}</span>
-                    <button (click)="onNextPage()" [disabled]="currentPage === totalPages" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Siguiente</button>
+                    <button (click)="onNextPage()" [disabled]="currentPage === totalPages"
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Siguiente</button>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>
